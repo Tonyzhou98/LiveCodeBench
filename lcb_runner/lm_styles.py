@@ -146,6 +146,13 @@ LanguageModelList: list[LanguageModel] = [
         datetime(2023, 1, 1),
         link="https://huggingface.co/meta-llama/Llama-3.3-70B-Instruct",
     ),
+    LanguageModel(
+        "facebook/cwm",
+        "CWM",
+        LMStyle.LLaMa3,
+        datetime(2023, 1, 1),
+        link="https://huggingface.co/facebook/cwm",
+    ),
     ## Deepseek-Coder Base (33B, 6.7B, 1.3B)
     LanguageModel(
         "deepseek-ai/deepseek-coder-33b-base",
@@ -691,6 +698,13 @@ LanguageModelList: list[LanguageModel] = [
         LMStyle.CodeQwenInstruct,
         datetime(2024, 6, 30),
         link="https://huggingface.co/Qwen/Qwen3-235B-A22B",
+    ),
+     LanguageModel(
+        "Qwen/Qwen3-Coder-30B-A3B-Instruct",
+        "Qwen3-Coder-30B-A3B-Instruct",
+        LMStyle.CodeQwenInstruct,
+        datetime(2024, 6, 30),
+        link="https://huggingface.co/Qwen/Qwen3-Coder-30B-A3B-Instruct",
     ),
     LanguageModel(
         "azerogpt",

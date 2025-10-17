@@ -265,7 +265,7 @@ def format_prompt_generation(
         from transformers import AutoTokenizer
 
         tokenizer = AutoTokenizer.from_pretrained(
-            "meta-llama/Meta-Llama-3-8B-Instruct", padding_side="left", use_fast=False
+            "/fsx/zyhang/cwm", padding_side="left", use_fast=False
         )
         return tokenizer.apply_chat_template(
             chat_messages,
