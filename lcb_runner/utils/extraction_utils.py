@@ -2,6 +2,10 @@ from lcb_runner.lm_styles import LMStyle
 
 
 def extract_code(model_output: str, lmstyle: LMStyle):
+
+    if "</think>" in model_output:
+        model_output = model_output.split("</think>")[-1].strip()
+    
     outputlines = model_output.split("\n")
     if lmstyle == LMStyle.CodeLLaMaInstruct:
         indexlines = [i for i, line in enumerate(outputlines) if "PYTHON]" in line]

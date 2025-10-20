@@ -25,6 +25,8 @@ class PromptConstants:
 
     SYSTEM_MESSAGE_QWEN_QWQ = f"<|im_start|>system\nYou are a helpful and harmless assistant. You are Qwen developed by Alibaba. You should think step-by-step.<|im_end|>\n<|im_start|>user"
 
+    SYSTEM_MESSAGE_CWM = f"You are a helpful AI assistant. You always reason before responding, using the following format:\n\n<think>\nyour internal reasoning\n</think>\nyour external response"
+
     SYSTEM_MESSAGE_DEEPSEEK_R1 = (
         "<｜begin▁of▁sentence｜>A conversation between User and Assistant. "
         "The user asks a question, and the Assistant solves it. "
@@ -48,6 +50,27 @@ def get_generic_question_template_answer(question: CodeGenerationProblem):
         prompt += f"### Format: {PromptConstants.FORMATTING_WITHOUT_STARTER_CODE}\n"
         prompt += "```python\n# YOUR CODE HERE\n```\n\n"
     prompt += f"### Answer: (use the provided format with backticks)\n\n"
+    return prompt
+
+def get_cwm_question_template_answer(question: CodeGenerationProblem):
+    question_content = question.question_content
+    starter_code = question.starter_code
+
+    outline_guide = ""
+    format_guide = "Your code should be enclosed in triple backticks like so: ```python YOUR CODE HERE ```. Use the backticks for your code only."
+
+    prompt = (
+        f"Provide a Python solution for the following competitive programming question: {question_content}.\n"
+        + outline_guide
+        + format_guide
+    )
+    if starter_code != "":
+        prompt += (
+            f" Use the provided function signature:\n```python\n{starter_code}\n```"
+        )
+    else:
+        prompt += " Your code should read from and write to standard io."
+    
     return prompt
 
 
@@ -214,6 +237,7 @@ def format_prompt_generation(
         LMStyle.DeepSeekAPI,
         LMStyle.TogetherAI,
         LMStyle.CohereCommand,
+        LMStyle.OpenRouterAI,
     ]:
         chat_messages = [
             {
@@ -250,16 +274,28 @@ def format_prompt_generation(
         return chat_messages
 
     if LanguageModelStyle == LMStyle.LLaMa3:
+        # chat_messages = [
+        #     {
+        #         "role": "system",
+        #         "content": PromptConstants.SYSTEM_MESSAGE_GENERIC,
+        #     },
+        # ]
         chat_messages = [
             {
                 "role": "system",
-                "content": PromptConstants.SYSTEM_MESSAGE_GENERIC,
+                "content": PromptConstants.SYSTEM_MESSAGE_CWM,
             },
         ]
+        # chat_messages += [
+        #     {
+        #         "role": "user",
+        #         "content": get_generic_question_template_answer(question),
+        #     },
+        # ]
         chat_messages += [
             {
                 "role": "user",
-                "content": get_generic_question_template_answer(question),
+                "content": get_cwm_question_template_answer(question),
             },
         ]
         from transformers import AutoTokenizer

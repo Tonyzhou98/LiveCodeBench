@@ -34,6 +34,8 @@ class LMStyle(Enum):
 
     TogetherAI = "TogetherAI"
 
+    OpenRouterAI = "OpenRouterAI"
+
 
 @dataclass
 class LanguageModel:
@@ -481,6 +483,21 @@ LanguageModelList: list[LanguageModel] = [
         LMStyle.Gemini,
         datetime(2023, 4, 30),
         link="https://blog.google/technology/ai/gemini-api-developers-cloud",
+    ),
+    ## OpenRouterAI
+    LanguageModel(
+        "anthropic/claude-sonnet-4.5",
+        "Claude-Sonnet-4.5",
+        LMStyle.OpenRouterAI,
+        datetime(2025, 10, 17),
+        link="https://openrouter.ai/anthropic/claude-sonnet-4.5",
+    ),
+    LanguageModel(
+        "qwen/qwen3-coder",
+        "Qwen3-Coder",
+        LMStyle.OpenRouterAI,
+        datetime(2025, 10, 17),
+        link="https://openrouter.ai/qwen/qwen3-coder",
     ),
     # LanguageModel(
     #     "gemini-exp-1206",
